@@ -45,107 +45,110 @@ void uart_putchar(uint8_t c);
 uint8_t buf[4];
 uint8_t count=0;
 
-void got_char(uint8_t n)
-{
-	uint8_t r, g, b, max;
+void draw_rgb(uint8_t r, uint8_t g, uint8_t b);
 
-	if ((count & 1) == 0) {
-		buf[count >> 1] = (n << 4);
-	} else {
-		buf[count >> 1] |= n;
-	}
-	count++;
-	if (count >= 8) {
-		if (buf[0] == my_addr) {
-			r = buf[1];
-			g = buf[2];
-			b = buf[3];
-			max = 0;
-			if (r > max) max = r;
-			if (g > max) max = g;
-			if (b > max) max = b;
-			r ^= 0xFF;
-			g ^= 0xFF;
-			b ^= 0xFF;
-			max ^= 0xFF;
-			if (max != 0xFF) {
-				OCR0B = r;
-				OCR0A = g;
-				OCR1AL = b;
-				OCR1BL = max;
-			} else {
-				OCR0B = 0;
-				OCR0A = 0;
-				OCR1AL = 0;
-				OCR1BL = max;
-			}
-		}
-		count = 0;
-	}
+void got_char(uint8_t n) {
+   uint8_t r, g, b;
+   if ((count & 1) == 0) {
+      buf[count >> 1] = (n << 4);
+   } else {
+      buf[count >> 1] |= n;
+   }
+   count++;
+   if (count >= 8) {
+      if (buf[0] == my_addr) {
+         r = buf[1];
+         g = buf[2];
+         b = buf[3];
+         draw_rgb(r,b,g);
+      }
+      count = 0;
+   }
 }
 
-int main(void)
-{
-	uint8_t c;
+void draw_rgb(uint8_t r, uint8_t g, uint8_t b) {
+   uint8_t max = 0;
+   if (r > max) max = r;
+   if (g > max) max = g;
+   if (b > max) max = b;
+   r ^= 0xFF;
+   g ^= 0xFF;
+   b ^= 0xFF;
+   max ^= 0xFF;
+   if (max != 0xFF) {
+      OCR0B = r;
+      OCR0A = g;
+      OCR1AL = b;
+      OCR1BL = max;
+   } else {
+      OCR0B = 0;
+      OCR0A = 0;
+      OCR1AL = 0;
+      OCR1BL = max;
+   }
+}
 
-	init();
+int main(void) {
+   uint8_t c;
 
-	while (1) {
-		c = uart_getchar();
-		if (c >= '0' && c <= '9') {
-			got_char(c - '0');
-		} else if (c >= 'A' && c <= 'F') {
-			got_char(c - 'A' + 10);
-		} else if (c >= 'a' && c <= 'f') {
-			got_char(c - 'a' + 10);
-		} else {
-			count = 0;
-		}
-	}
+   init();
+
+   while (1) {
+      c = uart_getchar();
+      if (c >= '0' && c <= '9') {
+         got_char(c - '0');
+      } else if (c >= 'A' && c <= 'F') {
+         got_char(c - 'A' + 10);
+      } else if (c >= 'a' && c <= 'f') {
+         got_char(c - 'a' + 10);
+      } else {
+         count = 0;
+      }
+   }
 }
 
 uint8_t uart_getchar(void)
 {
-	while (!(UCSRA & (1<<RXC))) ;
-	return UDR;
+   while (!(UCSRA & (1<<RXC))) ;
+   return UDR;
 }
 
 void uart_putchar(uint8_t c)
 {
-	UCSRA = 0;
-	UDR = c;
-	while (!(UCSRA & (1<<TXC))) ;
+   UCSRA = 0;
+   UDR = c;
+   while (!(UCSRA & (1<<TXC))) ;
 }
 
 void init(void)
 {
-	PORTB = 0x00;
-	DDRB  = 0xFF;
-	PORTD = 0x03;
-	DDRD  = 0xFE;
-	// timer0 off
-	TCCR0A = 0;
-	TCCR0B = 0;
-	TCNT0 = 0;
-	// timer1 off
-	TCCR1A = 0;
-	TCCR1B = 0; 
-	TCCR1C = 0; 
-	TCNT1L = 0;
-	OCR0A = 0;	// green	invert
-	OCR0B = 0;	// red		invert
-	OCR1AL = 0;	// blue		invert
-	OCR1BL = 0xFF;	// all		invert
-	// timer0 and timer1 on, 8 bit PWM mode
-	TCCR0A = 0xA3;
-	TCCR1A = 0xB1;
-	TCCR0B = 0x03;
-	TCCR1B = 0x0B;
-	// uart
-	UBRRH = 0;
-	UBRRL = 3;
-	UCSRA = 0;
-	UCSRB = 0x18;
-	UCSRC = 0x06;
+   PORTB = 0x00;
+   DDRB  = 0xFF;
+   PORTD = 0x03;
+   DDRD  = 0xFE;
+   // timer0 off
+   TCCR0A = 0;
+   TCCR0B = 0;
+   TCNT0 = 0;
+   // timer1 off
+   TCCR1A = 0;
+   TCCR1B = 0; 
+   TCCR1C = 0; 
+   TCNT1L = 0;
+   OCR0A = 0;  // green  invert
+   OCR0B = 0;  // red    invert
+   OCR1AL = 0;  // blue    invert
+   OCR1BL = 0xFF;  // all    invert
+   // timer0 and timer1 on, 8 bit PWM mode
+   TCCR0A = 0xA3;
+   TCCR1A = 0xB1;
+   TCCR0B = 0x03;
+   TCCR1B = 0x0B;
+   // uart
+   UBRRH = 0;
+   UBRRL = 3;
+   UCSRA = 0;
+   UCSRB = 0x18;
+   UCSRC = 0x06;
 }
 

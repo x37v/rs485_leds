@@ -39,7 +39,7 @@
 # To rebuild project do "make clean" then "make all".
 #----------------------------------------------------------------------------
 
-AVRDUDE_PORT = /dev/ttyACM0
+AVRDUDE_PORT = /dev/ttyUSB0
 
 
 # Target file name (without extension).
@@ -385,11 +385,8 @@ ALL_CPPFLAGS = -mmcu=$(MCU) -I. -x c++ $(CPPFLAGS) $(GENDEPFLAGS)
 ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
 
 
-
-
-
 # Default target.
-all: begin gccversion sizebefore build sizeafter end
+first: begin gccversion sizebefore elf sizeafter end
 
 # Change the build target to build a HEX file or a library.
 build: elf hex eep lss sym
