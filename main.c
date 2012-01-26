@@ -36,14 +36,19 @@
 // PD5 OC0B = Blue disable
 // PD4      = RS485 TXEN
 
-const uint8_t my_addr = 3;
+#ifndef MY_ADDRESS
+#define MY_ADDRESS 1
+#endif
+
+const uint8_t broadcast_address = 0;
+const uint8_t my_addr = MY_ADDRESS;
 
 void init(void);
 uint8_t uart_getchar(void);
 void uart_putchar(uint8_t c);
 
 uint8_t buf[4];
-uint8_t count=0;
+uint8_t count = 0;
 
 void draw_rgb(uint8_t r, uint8_t g, uint8_t b);
 
@@ -56,7 +61,7 @@ void got_char(uint8_t n) {
    }
    count++;
    if (count >= 8) {
-      if (buf[0] == my_addr) {
+      if (buf[0] == my_addr || buf[0] == broadcast_address) {
          r = buf[1];
          g = buf[2];
          b = buf[3];
@@ -107,21 +112,18 @@ int main(void) {
    }
 }
 
-uint8_t uart_getchar(void)
-{
+uint8_t uart_getchar(void) {
    while (!(UCSRA & (1<<RXC))) ;
    return UDR;
 }
 
-void uart_putchar(uint8_t c)
-{
+void uart_putchar(uint8_t c) {
    UCSRA = 0;
    UDR = c;
    while (!(UCSRA & (1<<TXC))) ;
 }
 
-void init(void)
-{
+void init(void) {
    PORTB = 0x00;
    DDRB  = 0xFF;
    PORTD = 0x03;
