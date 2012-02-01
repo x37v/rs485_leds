@@ -29,6 +29,7 @@
 #include <avr/pgmspace.h>
 #include <stdint.h>
 #include <util/delay.h>
+#include "hsv_to_rgb.h"
 
 // PB4 OC1B = DIM pin (high = LED power on, low = LED power off)
 // PB3 OC1A = Red disable
@@ -53,7 +54,8 @@ uint8_t count = 0;
 void draw_rgb(uint8_t r, uint8_t g, uint8_t b);
 
 void got_char(uint8_t n) {
-   uint8_t r, g, b;
+   uint8_t hsv[3];
+   uint8_t rgb[3];
    if ((count & 1) == 0) {
       buf[count >> 1] = (n << 4);
    } else {
@@ -62,10 +64,11 @@ void got_char(uint8_t n) {
    count++;
    if (count >= 8) {
       if (buf[0] == my_addr || buf[0] == broadcast_address) {
-         r = buf[1];
-         g = buf[2];
-         b = buf[3];
-         draw_rgb(r,b,g);
+         hsv[0] = buf[1];
+         hsv[1] = buf[2];
+         hsv[2] = buf[3];
+         hsv_to_rgb(rgb, hsv);
+         draw_rgb(rgb[0], rgb[1], rgb[2]);
       }
       count = 0;
    }

@@ -45,9 +45,10 @@ AVRDUDE_PORT = /dev/ttyUSB0
 # Target file name (without extension).
 TARGET = main
 
-
 # List C source files here. (C dependencies are automatically generated.)
-SRC =	$(TARGET).c
+SRC =	\
+		$(TARGET).c \
+		hsv_to_rgb.c
 
 
 # MCU name, you MUST set this to match the board you are using
