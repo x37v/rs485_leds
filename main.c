@@ -47,7 +47,7 @@ int main(void) {
 
          //grab our colors
          for (uint8_t i = 0; i < 3; i++)
-            hsv[i] = uart_getchar();
+            hsv[i] = (uart_getchar() << 1); //shift up because we're only getting 7 bit values
 
          //convert to rgb and draw
          hsv_to_rgb(rgb, hsv);
