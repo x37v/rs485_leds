@@ -40,6 +40,7 @@ typedef enum { ACTION_NONE, ACTION_ADDRESSED, ACTION_CLOCK } action_t;
 int main(void) {
    //init our pwm and uart inputs
    init_pwm_and_uart();
+   draw_rgb(0,0,16);
    time_ms = 0;
 
    while (1) {
