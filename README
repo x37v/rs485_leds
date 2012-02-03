@@ -4,3 +4,5 @@ VCC [closest to the micro controller]
 B
 A
 GND
+
+rs485 at 115200 baud
