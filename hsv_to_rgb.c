@@ -27,7 +27,6 @@
 
 void hsv_to_rgb(uint8_t rgb_out[3], uint8_t hsv_in[3]) {
    uint8_t i = 0;
-   int8_t h_prime = hsv_in[0] / HSV_DIV_FACTOR;
    uint16_t chroma = (uint16_t)hsv_in[1] * (uint16_t)hsv_in[2];
    uint16_t x;
    int16_t m;
@@ -37,11 +36,12 @@ void hsv_to_rgb(uint8_t rgb_out[3], uint8_t hsv_in[3]) {
 
    //x = chroma * (1 - abs((h_prime % 2) - 1));
 
-   //h_prime mod 2
    float tmp;
-   tmp = (float)hsv_in[0] / (float)HSV_DIV_FACTOR;
-   while(tmp > (HSV_DIV_FACTOR << 1))
-      tmp -= (HSV_DIV_FACTOR << 1);
+   tmp = (float)hsv_in[0] / 42.5;
+   uint8_t h_prime_index = tmp;
+   //h_prime mod 2
+   while(tmp > 2)
+      tmp -= 2;
    //minus 1
    tmp -= 1.0;
    //abs
@@ -51,7 +51,7 @@ void hsv_to_rgb(uint8_t rgb_out[3], uint8_t hsv_in[3]) {
 
    //if hue is defined
    if (hsv_in[1] != 0) {
-      switch(h_prime) {
+      switch(h_prime_index) {
          case 0:
             rgb1[0] = chroma;
             rgb1[1] = x;
