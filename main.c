@@ -32,6 +32,8 @@ int main(void) {
    //init our pwm and uart inputs
    init_pwm_and_uart();
 
+   draw_rgb(0,0,16);
+
    while (1) {
       uint8_t hsv[3];
       uint8_t rgb[3];
