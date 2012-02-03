@@ -26,32 +26,30 @@
 #define HSV_DIV_FACTOR 43
 
 void hsv_to_rgb(uint8_t rgb_out[3], uint8_t hsv_in[3]) {
-   uint8_t i = 0;
-   uint16_t chroma = (uint16_t)hsv_in[1] * (uint16_t)hsv_in[2];
-   uint16_t x;
-   int16_t m;
-   uint16_t rgb1[3] = {0, 0, 0};
-
-   chroma = chroma >> 8;
+   //we lose some precision here, can we keep it somehow?
+   uint16_t chroma = ((uint16_t)hsv_in[1] * (uint16_t)hsv_in[2]) >> 8;
 
    //x = chroma * (1 - abs((h_prime % 2) - 1));
+   //approximation in fixed point
+   uint16_t h_prime = ((((uint16_t)hsv_in[0]) << 8) / 85) << 1;
+   uint16_t tmp = h_prime % (((uint16_t)2) << 8);
+   const uint16_t one = (1 << 8);
 
-   float tmp;
-   tmp = (float)hsv_in[0] / 42.5;
-   uint8_t h_prime_index = tmp;
-   //h_prime mod 2
-   while(tmp > 2)
-      tmp -= 2;
-   //minus 1
-   tmp -= 1.0;
-   //abs
-   if (tmp < 0.0)
-      tmp = -tmp;
-   x = (uint16_t)((float)chroma * (1.0 - tmp));
+   //abs(tmp - one)
+   if (tmp >= one)
+      tmp -= one;
+   else
+      tmp = one - tmp;
+
+   //x = chroma * (1 - abs(h_prime % 2 - 1))
+   tmp = one - tmp;
+   uint16_t x = (chroma * tmp) >> 8;
 
    //if hue is defined
    if (hsv_in[1] != 0) {
-      switch(h_prime_index) {
+      int16_t m;
+      uint16_t rgb1[3] = {0, 0, 0};
+      switch(h_prime >> 8) {
          case 0:
             rgb1[0] = chroma;
             rgb1[1] = x;
@@ -88,11 +86,11 @@ void hsv_to_rgb(uint8_t rgb_out[3], uint8_t hsv_in[3]) {
 
       //printf("x c m %d %d %d\n", x, chroma, m);
 
-      for (i = 0; i < 3; i++) {
+      for (uint8_t i = 0; i < 3; i++) {
          rgb_out[i] = rgb1[i] + m;
       }
    } else {
-      for (i = 0; i < 3; i++) {
+      for (uint8_t i = 0; i < 3; i++) {
          rgb_out[i] = hsv_in[2];
       }
    }
