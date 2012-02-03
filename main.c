@@ -32,8 +32,6 @@
 //0b110 == clock packet [all lights] [the rest of the byte contains clock offset in milliseconds]
 //0b111 == broadcast packet [all lights] [the rest of the byte is ignored]
 
-const uint8_t broadcast_address = 0;
-const uint8_t my_addr = MY_ADDRESS;
 unsigned long time_ms = 0;
 
 typedef enum { ACTION_NONE, ACTION_ADDRESSED, ACTION_CLOCK } action_t;
@@ -64,7 +62,7 @@ int main(void) {
       //figure out what type of packet we got is
       switch (start_packet & 0xE0) {
          case 0x80: //individual light
-            if ((start_packet & 0x1F) == my_addr)
+            if ((start_packet & 0x1F) == MY_ADDRESS)
                action = ACTION_ADDRESSED;
             break;
          case 0xE0: //broadcast packet, all lights

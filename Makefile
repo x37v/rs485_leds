@@ -41,9 +41,10 @@
 
 AVRDUDE_PORT = /dev/ttyUSB1
 
-
 # Target file name (without extension).
 TARGET = main
+
+MY_ADDRESS = 0
 
 # List C source files here. (C dependencies are automatically generated.)
 SRC =	\
@@ -158,6 +159,7 @@ CFLAGS += -Wstrict-prototypes
 CFLAGS += -Wa,-adhlns=$(<:%.c=$(OBJDIR)/%.lst)
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 CFLAGS += $(CSTANDARD)
+CFLAGS += -DMY_ADDRESS=$(MY_ADDRESS)
 
 
 #---------------- Compiler Options C++ ----------------
@@ -390,6 +392,9 @@ ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
 # Default target.
 first: begin gccversion sizebefore elf sizeafter end
 
+echo_address:
+	@echo "MY_ADDRESS IS SET TO $(MY_ADDRESS)\n"
+
 # Change the build target to build a HEX file or a library.
 build: elf hex eep lss sym
 	avrdude -P $(AVRDUDE_PORT) -p t2313 -c AVRISP -q -e -U flash:w:$(TARGET).hex -U lfuse:w:0xdd:m -U hfuse:w:0x9b:m -U efuse:w:0xff:m
@@ -610,4 +615,4 @@ $(shell mkdir $(OBJDIR) 2>/dev/null)
 # Listing of phony targets.
 .PHONY : all begin finish end sizebefore sizeafter gccversion \
 build elf hex eep lss sym coff extcoff \
-clean clean_list program debug gdb-config
+clean clean_list program debug gdb-config echo_address
