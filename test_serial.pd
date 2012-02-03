@@ -1,0 +1,23 @@
+#N canvas 817 26 506 357 10;
+#X obj 217 178 comport;
+#X obj 258 231 print comport;
+#X msg 152 110 info;
+#X msg 189 64 help;
+#X msg 280 146 close;
+#X msg 217 97 48 48 48 48 102 102 102 102;
+#X msg 367 161 baud 115200;
+#X msg 250 125 devicename /dev/ttyUSB0;
+#X obj 48 28 vsl 15 128 0 127 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X msg 66 173 129 \$1 127 5;
+#X msg 250 38 255 0 0 0;
+#X connect 0 1 1 0;
+#X connect 2 0 0 0;
+#X connect 3 0 0 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X connect 7 0 0 0;
+#X connect 8 0 9 0;
+#X connect 9 0 0 0;
+#X connect 10 0 0 0;
