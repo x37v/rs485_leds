@@ -1,4 +1,4 @@
-#N canvas 0 49 958 498 10;
+#N canvas 294 313 958 498 10;
 #X obj 367 305 comport;
 #X obj 399 334 print comport;
 #X msg 287 187 info;
@@ -6,9 +6,8 @@
 #X msg 415 223 close;
 #X msg 352 174 48 48 48 48 102 102 102 102;
 #X msg 502 238 baud 115200;
-#X msg 385 202 devicename /dev/ttyUSB0;
-#X obj 13 19 vsl 15 128 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 1900 1;
+#X obj 11 24 vsl 15 128 0 127 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
 #X obj 187 70 metro 1;
 #X obj 190 33 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
@@ -17,13 +16,13 @@
 #X obj 149 186 print;
 #X obj 82 52 phasor~ 0.5;
 #X obj 85 -25 hsl 128 15 0.1 4 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 2900 1;
+-1 -1 4100 1;
 #X msg 385 115 255 0 0 0 0 0;
 #X obj 631 221 + 192;
 #X obj 676 34 hsl 128 15 1 31 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 3000 1;
+-1 -1 0 1;
 #X floatatom 727 123 5 0 0 0 - - -;
-#X obj 594 98 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 594 98 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 633 260 s clockout;
 #X obj 673 78 int 1;
@@ -33,31 +32,46 @@
 #X obj 337 72 random 127;
 #X obj 344 43 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#X msg 201 250 128 \$1 127 10 10 127;
+#X msg 385 202 devicename /dev/ttyUSB1;
+#X msg 201 250 128 0 \$1 127 10;
+#X text 40 251 immediate \, address 0 ->;
+#X text 565 75 clock;
+#X msg 524 299 128 1 0 127 10 31 127;
+#X msg -10 282 128 0 0 127 \$1;
+#X obj -103 193 line;
+#X obj -72 230 * 127;
+#X obj -63 260 i;
+#X msg -107 138 0 \, 1 1000;
 #X connect 0 1 1 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
 #X connect 4 0 0 0;
 #X connect 5 0 0 0;
 #X connect 6 0 0 0;
-#X connect 7 0 0 0;
-#X connect 8 0 28 0;
-#X connect 9 0 11 0;
-#X connect 10 0 9 0;
-#X connect 11 0 12 0;
-#X connect 12 0 28 0;
-#X connect 14 0 11 0;
-#X connect 15 0 14 0;
-#X connect 16 0 0 0;
+#X connect 7 0 28 0;
+#X connect 8 0 10 0;
+#X connect 9 0 8 0;
+#X connect 10 0 11 0;
+#X connect 11 0 28 0;
+#X connect 13 0 10 0;
+#X connect 14 0 13 0;
+#X connect 15 0 0 0;
+#X connect 16 0 20 0;
 #X connect 17 0 21 0;
-#X connect 18 0 22 0;
-#X connect 20 0 23 0;
-#X connect 22 0 19 0;
-#X connect 22 0 23 1;
-#X connect 22 0 24 1;
-#X connect 23 0 24 0;
-#X connect 24 0 17 0;
-#X connect 25 0 0 0;
-#X connect 26 0 28 0;
-#X connect 27 0 26 0;
+#X connect 19 0 22 0;
+#X connect 21 0 18 0;
+#X connect 21 0 22 1;
+#X connect 21 0 23 1;
+#X connect 22 0 23 0;
+#X connect 23 0 16 0;
+#X connect 24 0 0 0;
+#X connect 25 0 28 0;
+#X connect 26 0 25 0;
+#X connect 27 0 0 0;
 #X connect 28 0 0 0;
+#X connect 31 0 0 0;
+#X connect 32 0 0 0;
+#X connect 33 0 34 0;
+#X connect 34 0 35 0;
+#X connect 35 0 32 0;
+#X connect 36 0 33 0;

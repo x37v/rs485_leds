@@ -39,7 +39,7 @@
 # To rebuild project do "make clean" then "make all".
 #----------------------------------------------------------------------------
 
-AVRDUDE_PORT = /dev/ttyUSB1
+AVRDUDE_PORT = /dev/ttyUSB0
 
 # Target file name (without extension).
 TARGET = main
