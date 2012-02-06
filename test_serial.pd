@@ -1,4 +1,4 @@
-#N canvas 294 313 958 498 10;
+#N canvas 442 251 986 672 10;
 #X obj 367 305 comport;
 #X obj 399 334 print comport;
 #X msg 287 187 info;
@@ -7,7 +7,7 @@
 #X msg 352 174 48 48 48 48 102 102 102 102;
 #X msg 502 238 baud 115200;
 #X obj 11 24 vsl 15 128 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 7600 1;
 #X obj 187 70 metro 1;
 #X obj 190 33 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
@@ -16,7 +16,7 @@
 #X obj 149 186 print;
 #X obj 82 52 phasor~ 0.5;
 #X obj 85 -25 hsl 128 15 0.1 4 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 4100 1;
+-1 -1 0 1;
 #X msg 385 115 255 0 0 0 0 0;
 #X obj 631 221 + 192;
 #X obj 676 34 hsl 128 15 1 31 0 0 empty empty empty -2 -8 0 10 -262144
@@ -37,11 +37,18 @@
 #X text 40 251 immediate \, address 0 ->;
 #X text 565 75 clock;
 #X msg 524 299 128 1 0 127 10 31 127;
-#X msg -10 282 128 0 0 127 \$1;
-#X obj -103 193 line;
-#X obj -72 230 * 127;
-#X obj -63 260 i;
-#X msg -107 138 0 \, 1 1000;
+#X obj -107 96 line;
+#X obj -41 191 * 127;
+#X obj -37 220 i;
+#X obj 154 413 exp;
+#X msg 150 386 1;
+#X floatatom 261 465 5 0 0 0 - - -;
+#X obj 260 393 hsl 128 15 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 12700 1;
+#X obj 258 426 expr log(1 + $f1 * (exp(1) - 1));
+#X obj -62 162 expr log(1 + $f1 * (exp(1) - 1));
+#X msg -10 282 128 0 20 127 \$1;
+#X msg -106 66 0 \, 1 5000;
 #X connect 0 1 1 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
@@ -70,8 +77,12 @@
 #X connect 27 0 0 0;
 #X connect 28 0 0 0;
 #X connect 31 0 0 0;
-#X connect 32 0 0 0;
+#X connect 32 0 40 0;
 #X connect 33 0 34 0;
-#X connect 34 0 35 0;
-#X connect 35 0 32 0;
-#X connect 36 0 33 0;
+#X connect 34 0 41 0;
+#X connect 36 0 35 0;
+#X connect 38 0 39 0;
+#X connect 39 0 37 0;
+#X connect 40 0 33 0;
+#X connect 41 0 0 0;
+#X connect 42 0 32 0;
