@@ -1,0 +1,8 @@
+sending:
+
+/hsv fff
+
+and
+
+/strobe T
+/strobe F
