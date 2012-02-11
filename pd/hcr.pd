@@ -1,6 +1,6 @@
-#N canvas 279 250 524 478 10;
+#N canvas 270 181 524 478 10;
 #X obj 103 115 vsl 15 128 0 1 0 0 empty empty hc 0 -9 0 10 -262144
--1 -1 3700 1;
+-1 -1 0 1;
 #X obj 122 115 vsl 15 128 0 50 0 0 empty empty r 0 -9 0 10 -258113
 -262144 -1 0 1;
 #X obj 119 310 random;
@@ -15,6 +15,9 @@
 #X obj 141 277 * 2;
 #X obj 140 256 t f f;
 #X obj 119 340 - 0;
+#X obj 96 32 inlet;
+#X obj 103 62 route hue rand;
+#X obj 149 86 * 50;
 #X connect 0 0 4 1;
 #X connect 1 0 12 0;
 #X connect 2 0 13 0;
@@ -30,4 +33,8 @@
 #X connect 12 0 11 0;
 #X connect 12 1 13 1;
 #X connect 13 0 5 0;
+#X connect 14 0 15 0;
+#X connect 15 0 0 0;
+#X connect 15 1 16 0;
+#X connect 16 0 1 0;
 #X coords 0 -1 1 1 40 150 2 100 100;
