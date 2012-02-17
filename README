@@ -6,3 +6,9 @@ A
 GND
 
 rs485 at 115200 baud
+
+On our adapter [gearmo rs485]
+
+1) A+
+2) B-
+5) ground
