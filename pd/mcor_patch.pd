@@ -1,0 +1,95 @@
+#N canvas 401 154 1375 800 10;
+#X obj 299 149 led_driver 6;
+#X obj 310 170 led_driver 13;
+#X obj 299 218 t a;
+#X obj 299 403 comport;
+#X obj 367 251 spigot 0;
+#X obj 367 276 print output;
+#X obj 412 228 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X msg 113 345 baud 115200;
+#X obj 113 318 delay 10;
+#X obj 112 247 makefilename /dev/ttyUSB%d;
+#X obj 112 222 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144
+-1 -1 0;
+#X msg 112 273 devicename \$1;
+#X msg 330 356 close;
+#X obj 112 296 bang;
+#X obj 493 282 x37v-count 6;
+#X obj 493 253 until 6;
+#X msg 493 227 6;
+#X obj 546 409 s led_cmd;
+#X obj 497 314 pack f f 0.1;
+#X obj 546 357 spigot 0;
+#X obj 551 93 vsl 15 128 0 1 0 0 empty empty solid_hue -14 -9 0 10
+-262144 -1 -1 12700 1;
+#X obj 598 106 vsl 15 128 0 1 0 0 empty empty solid_val -14 -9 0 10
+-262144 -1 -1 400 1;
+#X obj 552 247 t b f;
+#X obj 598 250 t b f;
+#X obj 591 332 tgl 15 0 empty empty empty 17 7 0 10 -261234 -1 -1 1
+1;
+#X obj 281 60 route 0 1;
+#X obj 281 31 r led_cmd;
+#X obj 718 337 x37v-count 6;
+#X obj 718 308 until 6;
+#X msg 718 282 6;
+#X obj 718 578 s led_cmd;
+#X obj 718 402 spigot 0;
+#X obj 764 371 tgl 15 0 empty empty empty 17 7 0 10 -261234 -1 -1 1
+1;
+#X obj 829 269 vsl 15 128 0 1 0 0 empty empty solid_val -14 -9 0 10
+-262144 -1 -1 1100 1;
+#X msg 546 383 \$1 set \$2 0.5 \$3;
+#X msg 718 552 \$1 set \$2 \$3 \$4;
+#X obj 738 464 random 127;
+#X obj 738 488 / 127;
+#X obj 718 521 pack f 0 0.1 0;
+#X obj 718 435 t f b;
+#X obj 900 264 vsl 15 128 0 1 0 0 empty empty sat -14 -9 0 10 -262144
+-1 -1 1800 1;
+#X connect 0 0 2 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 2 0 4 0;
+#X connect 4 0 5 0;
+#X connect 6 0 4 1;
+#X connect 7 0 3 0;
+#X connect 8 0 7 0;
+#X connect 9 0 11 0;
+#X connect 10 0 9 0;
+#X connect 11 0 3 0;
+#X connect 11 0 13 0;
+#X connect 12 0 3 0;
+#X connect 13 0 8 0;
+#X connect 14 0 18 0;
+#X connect 14 1 15 1;
+#X connect 15 0 14 0;
+#X connect 16 0 15 0;
+#X connect 18 0 19 0;
+#X connect 19 0 34 0;
+#X connect 20 0 22 0;
+#X connect 21 0 23 0;
+#X connect 22 0 16 0;
+#X connect 22 1 18 1;
+#X connect 23 0 16 0;
+#X connect 23 1 18 2;
+#X connect 24 0 19 1;
+#X connect 25 0 0 0;
+#X connect 25 1 1 0;
+#X connect 26 0 25 0;
+#X connect 27 0 31 0;
+#X connect 27 1 28 1;
+#X connect 28 0 27 0;
+#X connect 29 0 28 0;
+#X connect 31 0 39 0;
+#X connect 32 0 31 1;
+#X connect 33 0 38 3;
+#X connect 34 0 17 0;
+#X connect 35 0 30 0;
+#X connect 36 0 37 0;
+#X connect 37 0 38 1;
+#X connect 38 0 35 0;
+#X connect 39 0 38 0;
+#X connect 39 1 36 0;
+#X connect 40 0 38 2;
